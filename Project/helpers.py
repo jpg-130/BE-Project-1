@@ -5,6 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from matplotlib import pyplot as plt
+import os
 
 class ImageHelpers:
 	def __init__(self):
@@ -128,8 +129,8 @@ class FileHelpers:
 		imlist = {}
 		count = 0
 		for each in glob(path + "*"):
-			word = each.split("/")[-1]
-			print( " #### Reading image category ", word, " ##### ")
+			word = each.split("\\")[-1]
+			print( " #### Reading image category ", word, " #####")
 			imlist[word] = []
 			for imagefile in glob(path+word+"/*"):
 				print( "Reading file ", imagefile)

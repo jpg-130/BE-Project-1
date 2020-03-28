@@ -29,13 +29,13 @@ class BOV:
 
         # read file. prepare file lists.
         self.images, self.trainImageCount = self.file_helper.getFiles(self.train_path)
-        print(self.trainImageCount)
+        print(self.trainImageCount, self.images)
         # extract SIFT Features from each image
         label_count = 0 
-        for word, imlist in self.images.iteritems():
+        for word in self.images:
             self.name_dict[str(label_count)] = word
             print( "Computing Features for ", word)
-            for im in imlist:
+            for im in self.images[word]:
                 # cv2.imshow("im", im)
                 # cv2.waitKey()
                 self.train_labels = np.append(self.train_labels, label_count)
@@ -104,9 +104,9 @@ class BOV:
 
         predictions = []
 
-        for word, imlist in self.testImages.iteritems():
+        for word in self.testImages:
             print( "processing " ,word)
-            for im in imlist:
+            for im in self.testImages[word]:
                 # print imlist[0].shape, imlist[1].shape
                 print( im.shape)
                 cl = self.recognize(im)
@@ -117,9 +117,9 @@ class BOV:
                     'object_name':self.name_dict[str(int(cl[0]))]
                     })
 
-        print( predictions)
+        print("prediction: ",predictions)
         for each in predictions:
-            # cv2.imshow(each['object_name'], each['image'])
+            cv2.imshow(each['object_name'], each['image'])
             # cv2.waitKey()
             # cv2.destroyWindow(each['object_name'])
             # 
@@ -148,9 +148,9 @@ if __name__ == '__main__':
     bov = BOV(no_clusters=100)
 
     # set training paths
-    bov.train_path = 'all_images/segmented_image/alphabet_a/train/'
+    bov.train_path = 'all_images\\train\\'
     # set testing paths
-    bov.test_path = 'all_images/segmented_image/alphabet_a/test/'
+    bov.test_path = 'all_images\\test\\'
     # train the model
     bov.trainModel()
     # test model
